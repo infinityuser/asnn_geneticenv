@@ -9,5 +9,8 @@ runv:
 run:
 	./debug 1>dumps/dumpone 2>dumps/logone
 
+runt:
+	./debug 1>dumps/dumptwo 2>dumps/logtwo
+
 runc:
 	./debug v
