@@ -1,7 +1,7 @@
 kernel = ../kernel/kermdl.o
 
 build: main.cpp $(kernel)
-	g++ -o ./debug main.cpp $(kernel) -lsfml-graphics -lsfml-window -lsfml-system -llapack -lblas -O2
+	g++ -o ./debug main.cpp $(kernel) -lsfml-graphics -lsfml-window -lsfml-system -O2
 
 runv:
 	./debug v 1>dumps/dumpone 2>dumps/logone
