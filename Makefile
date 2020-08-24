@@ -1,16 +1,19 @@
 kernel = ../kernel/kermdl.o
+dump = dumps/dump
+log = dumps/log
+prog = ./debug
 
-build: main.cpp $(kernel)
-	g++ -o ./debug main.cpp $(kernel) -lsfml-graphics -lsfml-window -lsfml-system -O2
+build: 
+	g++ -o $(prog) main.cpp $(kernel) -lsfml-graphics -lsfml-window -lsfml-system -O2
 
+# launch with dumps and visual mode
+rundv:
+	$(prog) v 1>$(dump) 2>$(log)
+
+# launch with dumps
+rund:
+	$(prog) 1>$(dump) 2>$(log)
+
+# launch in visual mode
 runv:
-	./debug v 1>dumps/dumpone 2>dumps/logone
-
-run:
-	./debug 1>dumps/dumpone 2>dumps/logone
-
-runt:
-	./debug 1>dumps/dumptwo 2>dumps/logtwo
-
-runc:
-	./debug v
+	$(prog) v

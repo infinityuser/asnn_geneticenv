@@ -1,4 +1,4 @@
 # Results
 Independent sessions
-![](src/mult1.png)
-![](src/mult2.png)
+![](res/mult1.png)
+![](res/mult2.png)
