@@ -9,8 +9,8 @@
 #include <cstdlib>
 #include <cmath>
 
-#include "../lib_sfml/SFML/Graphics.hpp"
-#include "../kernel/kernel.hpp"
+#include <SFML/Graphics.hpp>
+#include <kernel/kernel.hpp>
 #include "envset.cpp"
 #include "envvar.cpp"
 #include "envfun.cpp"

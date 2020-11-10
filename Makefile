@@ -1,19 +1,20 @@
-kernel = ../kernel/kermdl.o
-dump = dumps/dump
-log = dumps/log
-prog = ./debug
+# $(resources)			- local .so structures
+# $(resources)/SFML 	- SFML headers
+# $(resources)/kernel 	- kernel headers
 
-build: 
-	g++ -o $(prog) main.cpp $(kernel) -lsfml-graphics -lsfml-window -lsfml-system -O2
+logs = ./dumps/log
+imprint = ./dumps/imprint
+resources = /home/ireoi/.lib
 
-# launch with dumps and visual mode
-rundv:
-	$(prog) v 1>$(dump) 2>$(log)
+all: build run
 
-# launch with dumps
-rund:
-	$(prog) 1>$(dump) 2>$(log)
+build:
+	g++ -o ./debug main.cpp -L$(resources) -lkermdl -lsfml-graphics -lsfml-window -lsfml-system -lpthread -I$(resources)/asnn
 
-# launch in visual mode
+run:
+	export LD_LIBRARY_PATH=$(resources)
+	./debug 2>$(logs) 1>$(imprint)
+
 runv:
-	$(prog) v
+	export LD_LIBRARY_PATH=$(resources)
+	./debug v 2>$(logs) 1>$(imprint)
