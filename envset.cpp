@@ -30,7 +30,7 @@ namespace env {
 	};
 
 	const double defav = 0.01,
-				 reser = 0.23,
+				 reser = 1,
 				 neumax = 1,
 				 impulse = 1000;
 	double light;

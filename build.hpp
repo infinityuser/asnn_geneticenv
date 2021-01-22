@@ -8,6 +8,7 @@
 #include <unistd.h>
 #include <cstdlib>
 #include <cmath>
+#include <signal.h>
 
 #include <SFML/Graphics.hpp>
 #include <kernel/kernel.hpp>

@@ -1,9 +1,16 @@
 #include "build.hpp"
 
-int main (int argc, char * argv[]) {
+FILE * dump;
+void intrsig (int sig) {
+	fclose(dump);
+	exit(0);
+}
 
+int main (int argc, char * argv[]) {
 	bool vis = false;
 	if (argc != 1 && argv[1][0] == 'v') vis = true;
+	dump = fopen(argv[2], "w");
+	signal(SIGINT, intrsig);
 
 	env::init(20, 40, 10);
 
@@ -17,7 +24,7 @@ int main (int argc, char * argv[]) {
 		}
 
 		if (vis) window.clear();
-		makeEpoch();
+		makeEpoch(dump);
 		if (vis) drawAll();
 		if (vis) window.display();
 

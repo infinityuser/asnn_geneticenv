@@ -73,7 +73,7 @@ int corresp(int cy, int cx) {
 	return int(angle / 360 * 8) * 3 + 1;
 }
 
-void makeEpoch (void) {
+void makeEpoch (FILE *dump) {
 	std::vector<double> saver;	
 	int temp, ly, lx, ty, tx;
 
@@ -112,7 +112,7 @@ void makeEpoch (void) {
 		pops[it].soul.setIn(saver, 1, 0);
 		
 		pops[it].soul.dropOut(); 
-		pops[it].soul.dropPart(pow(light, 2));
+		pops[it].soul.dropPart(pow(-light + 1, 2));
 		
 		getChoise(saver);
 		status[pops[it].y][pops[it].x] = 0;
@@ -171,7 +171,7 @@ void makeEpoch (void) {
 		// data collecting ------------------------------------
 		++curvar;
 		if (curvar >= varlen) {
-			printf("%f\n", double(variety) / varlen * 1000); 
+			fprintf(dump, "%f\n", double(variety) / varlen * 1000); 
 			variety = 0;
 			curvar = 0;
 		}
