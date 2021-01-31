@@ -1,6 +1,8 @@
 namespace env {
 	// structures ----------------
 	struct unit {
+		long int being = 0;
+		double last_light = 0;
 		int x, y, state, dpos[8];
 		kernel::model soul;
 	};
@@ -10,10 +12,10 @@ namespace env {
 			  sizeY = 58,
 			  step = 13, 
 			  mindvs = 100,
-			  zoom = 4,
-			  heal = 100,
-			  topheal = 200,
-			  varlen = 10000;
+			  zoom = 5,
+			  heal = 116,
+			  topheal = 232,
+			  varlen = 10000; // individuals_count * epochs count
 	
 	// stimulators ----------------
 	const double perf = 1,
@@ -25,7 +27,6 @@ namespace env {
 	const auto lays = {
 		$(24, {1}),
 		$(24, {2}),
-		$(37, {3}),
 		$(24, {}),
 	};
 
@@ -41,7 +42,8 @@ namespace env {
 		curme, mes,
 		curid, indvs,
 		curvar;
-	long int variety;
+	long int variety, died;
+
 	unit pops[mindvs];
 
 	int status[sizeY][sizeX];
@@ -104,6 +106,7 @@ namespace env {
 			}
 
 			pops[it].state = topheal;
+			pops[it].being = 0;
 			pops[it].y = ty;
 			pops[it].x = tx;
 			status[ty][tx] = it + 1;
@@ -138,6 +141,7 @@ namespace env {
 		}
 
 		pops[it].state = topheal;
+		pops[it].being = 0;
 		pops[it].y = ty;
 		pops[it].x = tx;
 		status[ty][tx] = it + 1; 

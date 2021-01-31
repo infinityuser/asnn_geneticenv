@@ -12,23 +12,29 @@ int main (int argc, char * argv[]) {
 	dump = fopen(argv[2], "w");
 	signal(SIGINT, intrsig);
 
-	env::init(20, 40, 10);
+	env::init(6, 40, 0);
 
-	while (window.isOpen())
-	{
-		sf::Event event;
-		while (window.pollEvent(event))
+	if (vis) {
+		while (window.isOpen())
 		{
-			if (event.type == sf::Event::Closed)
-				window.close();
+			sf::Event event;
+			while (window.pollEvent(event))
+			{
+				if (event.type == sf::Event::Closed)
+					window.close();
+			}
+
+			if (vis) window.clear();
+			makeEpoch(dump);
+			if (vis) drawAll();
+			if (vis) window.display();
+
+			usleep(actionTimer);
 		}
-
-		if (vis) window.clear();
-		makeEpoch(dump);
-		if (vis) drawAll();
-		if (vis) window.display();
-
-		usleep(actionTimer);
+	} else {
+		window.close();
+		while (true)
+			makeEpoch(dump);
 	}
  
 	return 0;

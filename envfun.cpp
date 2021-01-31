@@ -78,7 +78,7 @@ void makeEpoch (FILE *dump) {
 	int temp, ly, lx, ty, tx;
 
 	for (int it = 0; it < indvs; ++it) {
-		// choice assignment ----------------------------------
+		// choise assignment ----------------------------------
 		--pops[it].state;
 		
 		saver = std::vector<double>(24, bado);	
@@ -97,6 +97,7 @@ void makeEpoch (FILE *dump) {
 					else if (status[ty][tx] == indvs + 1)
 						saver[iter] = 
 							std::max(good + (good - notb) * (double(1) - sqrt(pow(ty - pops[it].y, 2) * pow(tx - pops[it].x, 2)) / zoom), saver[iter]);
+							//std::max(good, saver[iter]);
 					else
 						saver[iter] = 
 							std::max(bado / 10, saver[iter]);
@@ -107,12 +108,16 @@ void makeEpoch (FILE *dump) {
 
 		pops[it].soul.dropOut();
 		pops[it].soul.setIn(saver, 0, 0);
-		pops[it].soul.exec(true, pow(light, 2));
-		saver = pops[it].soul.getOut();
-		pops[it].soul.setIn(saver, 1, 0);
 		
-		pops[it].soul.dropOut(); 
-		pops[it].soul.dropPart(pow(-light + 1, 2));
+		pops[it].soul.exec(true, (light >= pops[it].last_light ? light : -light));
+		saver = pops[it].soul.getOut();
+		
+		pops[it].soul.setIn(saver, 1, 0);
+		//pops[it].soul.setIn(saver, 3, 0);
+		pops[it].last_light = light;
+		
+		//pops[it].soul.dropOut(); 
+		pops[it].soul.dropPart(light * 0.1);
 		
 		getChoise(saver);
 		status[pops[it].y][pops[it].x] = 0;
@@ -133,7 +138,7 @@ void makeEpoch (FILE *dump) {
 		pops[it].x = modX(pops[it].x);
 
 		if (status[pops[it].y][pops[it].x] == indvs + 2) {
-			variety -= 4;
+			//variety -= 1;
 
 			pops[it].y = ly; 
 			pops[it].x = lx;
@@ -163,16 +168,19 @@ void makeEpoch (FILE *dump) {
 		status[pops[it].y][pops[it].x] = it + 1;
 		
 		if (pops[it].state < 1) {
-			variety -= 10;
+			variety -= 1;
+			died += 1;
+			
 			status[pops[it].y][pops[it].x] = 0;
 			reInitId(it);
-		}
+		} else ++pops[it].being;
 
 		// data collecting ------------------------------------
 		++curvar;
 		if (curvar >= varlen) {
-			fprintf(dump, "%f\n", double(variety) / varlen * 1000); 
+			fprintf(dump, "%ld %ld\n", variety, died); 
 			variety = 0;
+			died = 0;
 			curvar = 0;
 		}
 	}
